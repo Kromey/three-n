@@ -1,12 +1,6 @@
-use std::num::ParseIntError;
+pub mod error;
 
-#[derive(Debug)]
-pub enum InputError {
-    ParseError(ParseIntError),
-    ArgCountError{ count: usize },
-    ZeroError,
-    OutOfOrderError,
-}
+pub use self::error::InputError;
 
 impl From<ParseIntError> for InputError {
     fn from(e: ParseIntError) -> InputError {
