@@ -1,9 +1,9 @@
 pub mod error;
 
-use std::io;
 pub use self::error::InputError;
+use std::io;
 
-pub fn read_args() -> Result<Option<(u32,u32)>, InputError> {
+pub fn read_args() -> Result<Option<(u32, u32)>, InputError> {
     let mut input = String::new();
     io::stdin().read_line(&mut input)?;
 
