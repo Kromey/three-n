@@ -1,10 +1,36 @@
 pub mod error;
 
+use std::io;
 pub use self::error::InputError;
 
-impl From<ParseIntError> for InputError {
-    fn from(e: ParseIntError) -> InputError {
-        InputError::ParseError(e)
+pub fn read_args() -> Result<Option<(u32,u32)>, InputError> {
+    let mut input = String::new();
+    io::stdin().read_line(&mut input)?;
+
+    let args: Vec<u32> = input
+        .trim()
+        .split_whitespace()
+        .filter_map(|arg| {
+            if arg.is_empty() {
+                None
+            } else {
+                Some(arg.parse::<u32>())
+            }
+        })
+        .collect::<Result<_, _>>()?;
+
+    if args.is_empty() {
+        Ok(None)
+    } else if args.len() != 2 {
+        Err(InputError::ArgCountError { count: args.len() })
+    } else if args[0] == 0 || args[1] == 0 {
+        Err(InputError::ZeroError)
+    } else if args[0] > args[1] {
+        eprintln!("WARNING: Input arguments are out of order.");
+
+        Ok(Some((args[1], args[0])))
+    } else {
+        Ok(Some((args[0], args[1])))
     }
 }
 
