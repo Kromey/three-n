@@ -1,4 +1,4 @@
-pub mod error;
+mod error;
 
 pub use self::error::InputError;
 use std::io;
